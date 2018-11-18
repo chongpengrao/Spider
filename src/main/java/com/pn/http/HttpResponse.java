@@ -13,7 +13,7 @@ public class HttpResponse {
     private int status;//状态码
     private String contentType;//响应数据的格式
     private long contentLength;//响应数据的长度
-    private String acceptRanges;//响应数据的字节范围
+    private String contentRange;//响应数据的字节范围
     //存放状态码和描述信息
     private Map<Integer,String> httpMap = new HashMap<Integer, String>();
     private OutputStream outputStream;

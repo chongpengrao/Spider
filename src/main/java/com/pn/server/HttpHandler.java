@@ -7,6 +7,8 @@ import com.pn.pojo.ServerConstant;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HttpHandler implements Runnable {
 
@@ -22,6 +24,7 @@ public class HttpHandler implements Runnable {
         try {
             HttpRequest request = new HttpRequest(socket.getInputStream());
             HttpResponse response = new HttpResponse(socket.getOutputStream());
+
             response.setStatus(HttpConstant.CODE_OK);
             //获取请求资源路径
             String pathName = ServerConstant.webRoot+request.getUri();
@@ -34,13 +37,18 @@ public class HttpHandler implements Runnable {
                 file = new File(ServerConstant.webRoot+ServerConstant.notFoundPage);
                 response.setStatus(HttpConstant.CODE_NOTFOUND);
             }
+            String range = request.getRange();
+            if (range !=null && !range.isEmpty()){
+                response.setStatus(HttpConstant.CODE_CONTINUE);
+            }
             String fileName = file.getName();
             response.setContentType(ServerConstant.typeMap.get(fileName.substring(fileName.lastIndexOf(".")+1)));
             response.setContentLength(file.length());
+
             //输出资源给客户端
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-            byte[] bs = new byte[10*1024*1024];
-            int len = 0;
+            byte[] bs = new byte[1024];
+            int len = -1;
             while ((len=inputStream.read(bs))>0){
                 response.getOutputStream().write(bs,0,len);
             }

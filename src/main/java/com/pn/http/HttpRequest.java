@@ -14,6 +14,7 @@ public class HttpRequest {
     private String method;//请求方式
     private String uri;//请求资源路径
     private String protocol;//请求协议
+    private String range;//请求的字节范围
     //get请求参数
     private Map<String,String> paramMap = new HashMap<String, String>();
 
@@ -33,6 +34,12 @@ public class HttpRequest {
                 String[] requestParams = uri.split("?")[1].split("&");
                 for (String str : requestParams){
                     paramMap.put(str.split("=")[0],str.split("=")[1]);
+                }
+            }
+            String str = "";
+            while (!(str=reader.readLine()).isEmpty()&&str!=null){
+                if (str.contains("Range")){
+                    range = str.split(":")[1];
                 }
             }
         } catch (IOException e) {

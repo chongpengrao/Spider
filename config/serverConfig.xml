@@ -14,6 +14,8 @@
         <type-mapping ext="ico" type="image/ico"></type-mapping>
         <type-mapping ext="png" type="image/png"></type-mapping>
         <type-mapping ext="script" type="application/javascript"></type-mapping>
+        <type-mapping ext="zip" type="application/zip"></type-mapping>
+        <type-mapping ext="flac" type="audio/x-flac"></type-mapping>
 
     </type-mappings>
 </server>
