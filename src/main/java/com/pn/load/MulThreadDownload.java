@@ -35,6 +35,7 @@ public class MulThreadDownload {
         if (connection==null){
             throw new RuntimeException("连接失败");
         }
+        
         int code = connection.getResponseCode();
         if (code==HttpConstant.CODE_OK){
             //获取资源大小

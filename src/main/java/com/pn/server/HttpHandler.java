@@ -25,6 +25,7 @@ public class HttpHandler implements Runnable {
             HttpRequest request = new HttpRequest(socket.getInputStream());
             HttpResponse response = new HttpResponse(socket.getOutputStream());
 
+            response.setProtocol(ServerConstant.protocol);
             response.setStatus(HttpConstant.CODE_OK);
             //获取请求资源路径
             String pathName = ServerConstant.webRoot+request.getUri();

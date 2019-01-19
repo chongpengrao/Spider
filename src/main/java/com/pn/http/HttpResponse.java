@@ -4,6 +4,7 @@ import com.pn.pojo.HttpConstant;
 import lombok.Data;
 
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,5 +24,23 @@ public class HttpResponse {
         httpMap.put(HttpConstant.CODE_OK, HttpConstant.DESC_OK);
         httpMap.put(HttpConstant.CODE_NOTFOUND, HttpConstant.DESC_NOTFOUND);
         httpMap.put(HttpConstant.CODE_ERROR, HttpConstant.DESC_ERROR);
+    }
+
+    //保证响应头只被发送一次
+    private boolean isSend;
+
+    public OutputStream getOutputStream() {
+        if (!isSend) {
+            PrintStream ps = new PrintStream(outputStream);
+            // 状态行
+            ps.println(protocol + " " + status + " "
+                    + httpMap.get(status));
+            ps.println("Content-Type:" + contentType);
+            ps.println("Content-Length:" + contentLength);
+            ps.println();
+
+            isSend=true;//改变发送状态
+        }
+        return outputStream;
     }
 }
